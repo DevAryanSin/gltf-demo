@@ -276,25 +276,94 @@ Each interactive object has a `gltf_interaction` block inside its glTF `extras` 
 The loader runs **one traversal** of the scene graph after the file loads. For each node with a `gltf_interaction` block, animations are sorted into five maps:
 
 ```
-clickMap     { group → AnimationAction[] }   one click fires the whole group
-hoverMap     node  → { actions, outActions, cursor }
-scrollMap    { group → ScrollEntry[] }       each entry has action + range + mode
-meshTagMap   mesh  → { node, group }         maps raycast hit back to its node
-nodeGroupMap node  → group
+const clickMap     = {};        // { group: AnimationAction[] }   — click fires the whole group
+const hoverMap     = new Map(); // node → { actions, outActions, cursor } — per-node
+const scrollMap    = {};        // { group: ScrollEntry[] }        — each entry holds action + range
+const meshTagMap   = new Map(); // mesh → { node, group }          — maps raycast hit back to its node
+const nodeGroupMap = new Map(); // node → group                    — used by click to find the group key
 ```
 
 After traversal, these maps are never written to again. The scroll listener, hover tick, and click handler all just read from them.
 
 ```js
-// The entire setup is one traversal
-gltf.scene.traverse(node => {
-    if (!node.userData?.gltf_interaction) return;
-    // sort into clickMap / hoverMap / scrollMap ...
-});
+new GLTFLoader().load('./demo.gltf', (gltf) => {
+    scene.add(gltf.scene);
+
+    // interactions will play 
+    const actionsByName = {};
+    if (gltf.animations?.length) {
+        mixer = new THREE.AnimationMixer(gltf.scene);
+        gltf.animations.forEach(clip => {
+            const action = mixer.clipAction(clip);
+            action.play();
+            action.paused = true;
+            actionsByName[clip.name] = action;
+        });
+    }
+
+    // Converts a [{name, loop}] schema array into configured AnimationActions.
+    const resolve = (list) => {
+        if (!Array.isArray(list)) return [];
+        return list.flatMap(({ name, loop }) => {
+            const action = actionsByName[name];
+            if (!action) return [];
+            if (loop) {
+                action.setLoop(THREE.LoopRepeat, Infinity);
+            } else {
+                action.setLoop(THREE.LoopOnce, 1);
+                action.clampWhenFinished = true;
+            }
+            return [action];
+        });
+    };
+
+    // glTF traversal 
+    // objects are sorted into the maps above
+    gltf.scene.traverse(node => {
+        if (!node.userData?.gltf_interaction) return;
+
+        const idx   = node.userData.gltf_interaction;
+        const group = idx.group || node.uuid; 
+
+        // Scroll 
+        if (Array.isArray(idx.on_scroll_animations) && idx.on_scroll_animations.length) {
+            const start = idx.on_scroll_start ?? 0.0;
+            const end   = idx.on_scroll_end   ?? 1.0;
+            const mode  = idx.on_scroll_mode  || 'scrub';
+            if (!scrollMap[group]) scrollMap[group] = [];
+            idx.on_scroll_animations.forEach(({ name }) => {
+                const action = actionsByName[name];
+                if (action) scrollMap[group].push({ action, start, end, mode, triggered: false });
+            });
+        }
+
+        // Click 
+        const clickActions = resolve(idx.on_click_animations);
+        if (clickActions.length) {
+            if (!clickMap[group]) clickMap[group] = [];
+            clickMap[group].push(...clickActions);
+        }
+
+        // Hover and on_hover_cursor
+        const hoverActions    = resolve(idx.on_hover_animations);
+        const hoverOutActions = resolve(idx.on_hover_out_animations);
+        const cursor          = idx.on_hover_cursor || 'pointer';
+        if (hoverActions.length || hoverOutActions.length) {
+            hoverMap.set(node, { actions: hoverActions, outActions: hoverOutActions, cursor });
+        }
+
+        // Register meshes for raycasting
+        if (clickActions.length || hoverActions.length) {
+            nodeGroupMap.set(node, group);
+            node.traverse(child => {
+                if (child.isMesh) meshTagMap.set(child, { node, group });
+            });
+        }
+    });
+
+
+}, undefined, console.error);
 ```
-
----
-
 
 ---
 
