@@ -26,36 +26,240 @@ https://github.com/user-attachments/assets/f4fba0d2-f85d-4343-b90d-262405c8bc5b
 Note: Left Cube and Left Torus have static animations and have gltf_interaction block
 ---
 
-## Schema
+## Proposed Schema
 
 Each interactive object has a `gltf_interaction` block inside its glTF `extras` field.
 
 ```json
-"extras": {
-  "gltf_interaction": {
-    "group": "cubes",
-
-    "on_click_animations": [
-      { "name": "CubeMain", "loop": false },
-      { "name": "CubeH1",   "loop": true  }
-    ],
-
-    "on_hover_cursor": "pointer",
-    "on_hover_animations": [
-      { "name": "CubeH1", "loop": true }
-    ],
-    "on_hover_out_animations": [
-      { "name": "CubeH1", "loop": false }
-    ],
-
-    "on_scroll_mode": "scrub",
-    "on_scroll_start": 0.0,
-    "on_scroll_end": 1.0,
-    "on_scroll_animations": [
-      { "name": "TorusR1" }
-    ]
-  }
-}
+"nodes":[
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"cubes",
+					"on_hover_cursor":"pointer",
+					
+					"on_click_animations":[
+						{"name":"CubeH3","loop":false}
+					]
+				}
+			},
+			"mesh":0,
+			"name":"Cube3",
+			"translation":[
+				-1.5519123077392578,
+				0,
+				0
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"cubes",
+					"on_hover_cursor":"pointer",
+					"on_hover_animations":[
+						{"name":"CubeH2","loop":false}
+					],
+					"on_click_animations":[
+						{"name":"CubeH2","loop":false}
+					]
+				}
+			},
+			"mesh":1,
+			"name":"Cube2",
+			"translation":[
+				1.3801028728485107,
+				-0.08543217182159424,
+				0
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"cubes",
+					"on_hover_cursor":"pointer",
+					"on_click_animations":[
+						{"name":"CubeMain","loop":false}
+					]
+				}
+			},
+			"mesh":2,
+			"name":"CubeMain",
+			"translation":[
+				-4.614233016967773,
+				0,
+				0
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"cubes",
+					"on_hover_cursor":"pointer",
+					"on_hover_animations":[
+						{"name":"CubeH1","loop":false}
+					],
+					"on_click_animations":[
+						{"name":"CubeH1","loop":false}
+					]
+				}
+			},
+			"mesh":3,
+			"name":"Cube1",
+			"translation":[
+				4.365303993225098,
+				0,
+				0
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"toruses",
+					"on_scroll_mode":"scrub",
+					"on_scroll_start":0.0,
+					"on_scroll_end":1.0,
+					"on_scroll_animations":[
+						{"name":"TorusR1","loop":false}
+					]
+				}
+			},
+			"mesh":4,
+			"name":"Torus1",
+			"translation":[
+				-1.5519123077392578,
+				0,
+				4.058365821838379
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"toruses",
+					"on_scroll_mode":"scrub",
+					"on_scroll_start":0.0,
+					"on_scroll_end":1.0,
+					"on_scroll_animations":[
+						{"name":"TorusMain","loop":false}
+					]
+				}
+			},
+			"mesh":5,
+			"name":"TorusMain",
+			"translation":[
+				-4.912131309509277,
+				0,
+				4.058365821838379
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"toruses",
+					"on_scroll_mode":"scrub",
+					"on_scroll_start":0.0,
+					"on_scroll_end":1.0,
+					"on_scroll_animations":[
+						{"name":"TorusR2","loop":false}
+					]
+				}
+			},
+			"mesh":6,
+			"name":"Torus2",
+			"translation":[
+				1.6511058807373047,
+				0,
+				4.058365821838379
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"toruses",
+					"on_scroll_mode":"scrub",
+					"on_scroll_start":0.0,
+					"on_scroll_end":1.0,
+					"on_scroll_animations":[
+						{"name":"TorusR3","loop":false}
+					]
+				}
+			},
+			"mesh":7,
+			"name":"Torus3",
+			"translation":[
+				4.488363265991211,
+				0,
+				4.058365821838379
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"spheres",
+					"on_click_animations":[
+						{"name":"SMain","loop":false}
+					]
+				}
+			},
+			"mesh":8,
+			"name":"SphereMain",
+			"translation":[
+				-5.085437774658203,
+				0,
+				8.45125961303711
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"spheres",
+					"on_click_animations":[
+						{"name":"S1","loop":false}
+					]
+				}
+			},
+			"mesh":9,
+			"name":"Sphere1",
+			"translation":[
+				-1.4914898872375488,
+				0,
+				8.45125961303711
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"spheres",
+					"on_click_animations":[
+						{"name":"S2","loop":false}
+					]
+				}
+			},
+			"mesh":10,
+			"name":"Sphere2",
+			"translation":[
+				1.7400072813034058,
+				0,
+				8.45125961303711
+			]
+		},
+		{
+			"extras":{
+				"gltf_interaction":{
+					"group":"spheres",
+					"on_click_animations":[
+						{"name":"S3","loop":false}
+					]
+				}
+			},
+			"mesh":11,
+			"name":"Sphere3",
+			"translation":[
+				4.582424640655518,
+				0,
+				8.45125961303711
+			]
+		}
+	],
 ```
 
 **Key rules:**
