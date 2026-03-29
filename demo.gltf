@@ -34,6 +34,9 @@
 					"on_hover_cursor":"pointer",
 					"on_hover_animations":[
 						{"name":"CubeH3","loop":false}
+					],
+					"on_click_animations":[
+						{"name":"CubeH3","loop":false}
 					]
 				}
 			},
@@ -51,7 +54,10 @@
 					"group":"cubes",
 					"on_hover_cursor":"pointer",
 					"on_hover_animations":[
-						{"name":"CubeH2","loop":true}
+						{"name":"CubeH2","loop":false}
+					],
+					"on_click_animations":[
+						{"name":"CubeH2","loop":false}
 					]
 				}
 			},
@@ -67,11 +73,9 @@
 			"extras":{
 				"gltf_interaction":{
 					"group":"cubes",
+					"on_hover_cursor":"pointer",
 					"on_click_animations":[
-						{"name":"CubeMain","loop":false},
-						{"name":"CubeH1","loop":true},
-						{"name":"CubeH2","loop":true},
-						{"name":"CubeH3","loop":true}
+						{"name":"CubeMain","loop":false}
 					]
 				}
 			},
@@ -89,7 +93,10 @@
 					"group":"cubes",
 					"on_hover_cursor":"pointer",
 					"on_hover_animations":[
-						{"name":"CubeH1","loop":true}
+						{"name":"CubeH1","loop":false}
+					],
+					"on_click_animations":[
+						{"name":"CubeH1","loop":false}
 					]
 				}
 			},
