@@ -378,5 +378,5 @@ new GLTFLoader().load('./demo.gltf', (gltf) => {
 
 The glTF `extras` field is part of the official glTF 2.0 spec and is ignored by all validators, viewers, and renderers. This project proposes a Blender add-on that lets artists declare these interaction rules directly in the Object Properties panel, so the metadata is written automatically on export no manual JSON editing required.
 
-**Proposal:** [Declarative Web Interaction Metadata for glTF — GSoC 2026](https://github.com/DevAryanSin)
+**Proposal:** [Declarative Web Interaction Metadata for glTF — GSoC 2026](https://docs.google.com/document/d/1xWMiqqv8WUp3I0ihMt3YOyQcdZ04m9NCZsSqMAI-r9o/edit?usp=drivesdk)
 
